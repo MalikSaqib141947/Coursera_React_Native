@@ -1,10 +1,20 @@
 import React, {Component} from 'react';
 import {ScrollView, Text, View } from 'react-native';
 import {Card} from 'react-native-elements';
-import {DISHES} from '../Shared/dishes';
-import {PROMOTIONS} from '../Shared/promotions';
-import {LEADERS} from '../Shared/leaders';
+// import {DISHES} from '../Shared/dishes';
+// import {PROMOTIONS} from '../Shared/promotions';
+// import {LEADERS} from '../Shared/leaders';
 import { createStackNavigator } from 'react-navigation';
+import {connect} from 'react-redux';
+import {baseURL} from '../Shared/baseURL';
+
+const mapStateToProps = state => {
+    return {
+        dishes: state.dishes,
+        promotions: state.promotions,
+        leaders: state.leaders
+    }
+}
 
 function RenderItem(props){
     const item = props.item;
@@ -13,7 +23,7 @@ function RenderItem(props){
             <Card
                 featuredTitle = {item.name}
                 featuredSubtitle = {item.designation}
-                image = {require('./images/uthappizza.png')}
+                image = {{uri: baseURL + item.image}}
             >
                 <Text style = {{margin: 10}}>
                     {item.description}
@@ -27,15 +37,6 @@ function RenderItem(props){
 }
 class Home extends Component{
 
-    constructor(props){
-        super(props);
-        this.state = {
-            dishes: DISHES,
-            promotions: PROMOTIONS,
-            leaders: LEADERS
-        }
-    }
-
     static navigationOptions = {
         title: 'Home'
     };
@@ -43,12 +44,12 @@ class Home extends Component{
     render(){
         return(
             <ScrollView>
-                <RenderItem item = {this.state.dishes[0]} />
-                <RenderItem item = {this.state.promotions[0]} />
-                <RenderItem item = {this.state.leaders[3]} />
+                <RenderItem item = {this.props.dishes.dishes[0]} />
+                <RenderItem item = {this.props.promotions.promotions[0]} />
+                <RenderItem item = {this.props.leaders.leaders[3]} />
             </ScrollView>
         );
     }
 }
 
-export default Home;
+export default connect(mapStateToProps)(Home);
