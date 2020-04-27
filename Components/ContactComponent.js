@@ -2,10 +2,12 @@ import React, {Component} from 'react';
 import {View, Text } from 'react-native';
 import {Card} from 'react-native-elements';
 import { createStackNavigator } from 'react-navigation';
+import * as Animatable from 'react-native-animatable';
 
 function RenderAddress(props){
     const address = props.address;
     return(
+        <Animatable.View animation = 'fadeInDown' duration = {2000} delay = {1000}>
             <Card
                 title = "Contact Information"
             >
@@ -13,7 +15,7 @@ function RenderAddress(props){
                     {address}
                 </Text>
             </Card>
-
+        </Animatable.View>
             
     );
 }
