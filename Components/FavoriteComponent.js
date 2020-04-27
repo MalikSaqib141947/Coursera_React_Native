@@ -39,7 +39,8 @@ class Favorite extends Component {
                             [
                                 {text: 'Cancel', onPress: () => console.log(item.name + 'Not Deleted!'), style: 'cancel'},
                                 {text: 'OK', onPress : () => this.props.deleteFavorite(item.id)}
-                            ]
+                            ],
+                            {cancelable: false}
                         );
                     }
                 }
