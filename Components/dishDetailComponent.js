@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, ScrollView, FlatList, StyleSheet,Modal, Button, Alert, PanResponder } from 'react-native';
+import {View, Text, ScrollView, FlatList, StyleSheet,Modal, Button, Alert, PanResponder, Share } from 'react-native';
 import {Card, Icon, Rating, Input} from 'react-native-elements';
 // import {DISHES} from '../Shared/dishes';
 // import {COMMENTS} from '../Shared/comments';
@@ -78,6 +78,16 @@ function RenderDish(props){
         }
     });
 
+    const shareDish = (title, message, url) => {
+        Share.share({
+            title: title,
+            message: title + ': ' + message + '\n\n' + url,
+            url: url 
+        }, {
+            dialogTitle: 'Share ' + title
+        });
+    }
+
     if(dish != null){
         return(
             
@@ -99,14 +109,24 @@ function RenderDish(props){
                         name = {props.favorite ? 'heart' : 'heart-o'}
                         type = 'font-awesome'
                         color = '#f50'
-                        onPress = {() => props.favorite ? console.log('Already Favorite') : props.onPressOnFavorite()} />
+                        onPress = {() => props.favorite ? console.log('Already Favorite') : props.onPressOnFavorite()} 
+                        />
                     <Icon
                         raised
                         reverse
                         name = {'pencil'}
                         type = 'font-awesome'
                         color = '#512DA8'
-                        onPress = {() => props.onPressOnComment()} />
+                        onPress = {() => props.onPressOnComment()} 
+                        />
+                    <Icon
+                        raised
+                        reverse
+                        name = 'share'
+                        type = 'font-awesome'
+                        color = 'violet'
+                        onPress = {() => shareDish(dish.name, dish.description, baseURL + dish.image)} 
+                        />
                     
                     </View>
                 </Card>
