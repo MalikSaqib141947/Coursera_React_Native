@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Text, ScrollView, View, StyleSheet, Picker, Switch, Button, Modal} from 'react-native';
+import {Text, ScrollView, View, StyleSheet, Picker, Switch, Button, Modal,Alert} from 'react-native';
 import {Card} from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
+import * as Animatable from 'react-native-animatable';
 
 class Reservation extends Component{
     constructor(props){
@@ -25,7 +26,18 @@ class Reservation extends Component{
 
     handleReservation(){
         console.log(JSON.stringify(this.state));
-        this.toggleModal();
+        //this.toggleModal();
+
+        Alert.alert(
+            'Your Reservation OK?',
+            'Number of Guests: ' + this.state.guests + '\nSmoking: ' + this.state.smoking + '\nDate & Time: ' + this.state.date,
+            [
+                {text: 'Cancel', onPress: () => {this.resetForm(); console.log('Reservation Cancelled!')}, style: 'cancel'},
+                {text: 'OK', onPress : () => {this.resetForm(); console.log('Reservation Added!')}}
+            ],
+            {cancelable: false}
+        );
+
     }
 
     resetForm(){
@@ -38,7 +50,7 @@ class Reservation extends Component{
 
     render(){
         return(
-            <ScrollView>
+            <Animatable.View animation = 'zoomIn' duration = {2000}>
 
                 <View style = {styles.formRow}>
                     <Text style = {styles.formLabel}>Number of Guests</Text>
@@ -102,7 +114,8 @@ class Reservation extends Component{
                     />
                 </View>
 
-                <Modal
+                {/*
+                    <Modal
                     animationType = {'slide'}
                     transparent = {false}
                     visible = {this.state.showModal}
@@ -121,7 +134,10 @@ class Reservation extends Component{
                         />
                     </View>
                 </Modal>
-            </ScrollView>
+
+                */}
+
+            </Animatable.View>
         );
     }
 }

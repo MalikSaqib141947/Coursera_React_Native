@@ -9,6 +9,7 @@ import {baseURL} from '../Shared/baseURL';
 import {postFavorite} from '../redux/ActionCreators';
 import {postComment} from '../redux/ActionCreators'
 import * as Animatable from 'react-native-animatable';
+
 const mapStateToProps = state => {
     return {
         dishes: state.dishes,
@@ -29,6 +30,14 @@ function RenderDish(props){
 
     const recognizeDrag = ({moveX, moveY, dx, dy}) => {
         if(dx < -200){
+            return true;
+        }
+        else
+            return false;
+    };
+
+    const recognizeComment = ({moveX, moveY, dx, dy}) => {
+        if(dx > 200){
             return true;
         }
         else
@@ -60,7 +69,11 @@ function RenderDish(props){
                         }
                     ],
                     {cancelable: false}
-                )
+                );
+            
+            else if(recognizeComment(gestureState))
+                props.onPressOnComment();
+            
             return true;
         }
     });
