@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {View, Text } from 'react-native';
-import {Card} from 'react-native-elements';
+import {Card, Button, Icon} from 'react-native-elements';
 import { createStackNavigator } from 'react-navigation';
 import * as Animatable from 'react-native-animatable';
+import * as MailComposer from 'expo-mail-composer';
 
 function RenderAddress(props){
     const address = props.address;
@@ -14,6 +15,13 @@ function RenderAddress(props){
                 <Text style = {{margin: 10, fontSize: 15}}>
                     {address}
                 </Text>
+                <Button
+                    title = "Send Email"
+                    buttonStyle = {{backgroundColor: '#512DA8'}}
+                    icon = {<Icon name = 'envelope-o' type = 'font-awesome' color = 'white'/>}
+                    onPress = {() => props.onPress()}
+                    titleStyle = {{marginLeft: 10 }}
+                />
             </Card>
         </Animatable.View>
             
@@ -28,12 +36,25 @@ class Contact extends Component{
         };
     }
 
+    sendMail(){
+        MailComposer.composeAsync({
+            recipients: ['confusion@food.net'],
+            subject: 'Enquiry',
+            body: 'To whom it may concern:'
+        });
+    }
+
     static navigationOptions = {
         title: 'Contact Us'
     }
 
     render(){
-        return (<RenderAddress address = {this.state.address}  />);
+        return (
+            <RenderAddress 
+                address = {this.state.address}  
+                onPress = {this.sendMail}
+            />
+            );
     }
 }
 
